@@ -12,7 +12,7 @@ const RegisterPage = () => {
     return (
 
         <section className="flex justify-center items-center h-screen">
-            <Card className="mx-auto max-w-sm">
+            <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle className="text-xl">Sign Up</CardTitle>
                     <CardDescription>
@@ -21,15 +21,9 @@ const RegisterPage = () => {
                 </CardHeader>
                 <CardContent>
                     <div className="grid gap-4">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="grid gap-2">
-                                <Label htmlFor="first-name">First name</Label>
-                                <Input id="first-name" placeholder="Max" required />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="last-name">Last name</Label>
-                                <Input id="last-name" placeholder="Robinson" required />
-                            </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="first-name">Name</Label>
+                            <Input id="first-name" placeholder="Max" required />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
@@ -44,16 +38,17 @@ const RegisterPage = () => {
                             <Label htmlFor="password">Password</Label>
                             <Input id="password" type="password" />
                         </div>
-                        <Button type="submit" className="w-full">
-                            Create an account
-                        </Button>
-                        <Button variant="outline" className="w-full">
-                            Sign up with GitHub
+                        <Button type="submit"
+                            variant="secondary"
+                            className="w-full">
+                            <Link to="/auth/login" className="underline">
+                                Create an account
+                            </Link>
                         </Button>
                     </div>
                     <div className="mt-4 text-center text-sm">
-                        Already have an account?{" "}
-                        <Link to="#" className="underline">
+                        If you already have an account? Please{" "}
+                        <Link to="/auth/login" className="underline">
                             Sign in
                         </Link>
                     </div>

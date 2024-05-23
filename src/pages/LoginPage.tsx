@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Link } from "react-router-dom"
 
 const LoginPage = () => {
     return (
@@ -31,10 +32,18 @@ const LoginPage = () => {
                         <Label htmlFor="password">Password</Label>
                         <Input id="password" type="password" required />
                     </div>
+                    <CardFooter>
+                        <Button className="w-full">Sign in</Button>
+                    </CardFooter>
+                    <div className="mt-4 text-center text-sm">
+                        If You dont have an account, Please{" "}
+                        <Link to="/auth/register" className="underline">
+                            Sign up
+                        </Link>
+                        {" "}First
+                    </div>
                 </CardContent>
-                <CardFooter>
-                    <Button className="w-full">Sign in</Button>
-                </CardFooter>
+
             </Card>
         </section>
 
