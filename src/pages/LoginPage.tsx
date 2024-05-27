@@ -12,12 +12,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login } from "@/http/api"
 import { useMutation } from "@tanstack/react-query"
+import { LoaderCircle } from "lucide-react"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const LoginPage = () => {
 
-
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -26,6 +27,7 @@ const LoginPage = () => {
         mutationFn: login,
         onSuccess: () => {
             console.log("login success")
+            navigate('/dashboard/home')
         }
     })
 
@@ -82,8 +84,11 @@ const LoginPage = () => {
                         <Button
                             onClick={UserLogin}
                             className="w-full"
+                            disabled={mutation.isPending}
                         >
-                            Sign in</Button>
+                            {mutation.isPending && <LoaderCircle className="animate-spin" />}
+                            <span> Sign in</span>
+                        </Button>
                     </CardFooter>
 
                     <div className="mt-4 text-center text-sm">

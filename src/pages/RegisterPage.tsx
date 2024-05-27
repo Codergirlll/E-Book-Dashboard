@@ -5,10 +5,43 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react"
+import { useMutation } from '@tanstack/react-query';
+import { register } from '../http/api';
+import { LoaderCircle } from 'lucide-react';
+
 
 
 const RegisterPage = () => {
+
+    const navigate = useNavigate()
+    const [name, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+
+    const mutation = useMutation({
+        mutationFn: register,
+        onSuccess: () => {
+            navigate("/auth/login")
+        }
+
+    })
+
+    const UserRegister = () => {
+
+        if (!name || !email || !password) {
+            return alert("Please Provide all Infos")
+        }
+
+        mutation.mutate({
+            name, email, password
+        })
+        console.log("User resister successfully")
+    }
+
+
     return (
 
         <section className="flex justify-center items-center h-screen">
@@ -23,11 +56,16 @@ const RegisterPage = () => {
                     <div className="grid gap-4">
                         <div className="grid gap-2">
                             <Label htmlFor="first-name">Name</Label>
-                            <Input id="first-name" placeholder="Max" required />
+                            <Input
+                                onChange={(e) => { setUsername(e.target.value) }}
+                                id="first-name"
+                                placeholder="Max"
+                                required />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
+                                onChange={(e) => { setEmail(e.target.value) }}
                                 id="email"
                                 type="email"
                                 placeholder="m@example.com"
@@ -36,11 +74,19 @@ const RegisterPage = () => {
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" />
+                            <Input
+                                onChange={(e) => setPassword(e.target.value)}
+                                id="password"
+                                type="password" />
                         </div>
-                        <Button type="submit"
+                        <Button
+                            onClick={UserRegister}
+                            type="submit"
                             variant="secondary"
-                            className="w-full">
+                            className="w-full"
+                            disabled={mutation.isPending}>
+                            {mutation.isPending && <LoaderCircle className="animate-spin" />}
+
                             <Link to="/auth/login" className="underline">
                                 Create an account
                             </Link>
