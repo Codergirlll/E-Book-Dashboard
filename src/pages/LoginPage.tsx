@@ -11,23 +11,31 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login } from "@/http/api"
+import useTokenStore from "@/store"
 import { useMutation } from "@tanstack/react-query"
 import { LoaderCircle } from "lucide-react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
+
 const LoginPage = () => {
 
     const navigate = useNavigate()
+    const setToken = useTokenStore((state) => state.setToken);
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
 
     const mutation = useMutation({
         mutationFn: login,
-        onSuccess: () => {
-            console.log("login success")
-            navigate('/dashboard/home')
+        onSuccess: (response) => {
+            console.log("response", response)
+            setToken(response.data.token);
+            navigate('/dashboard/home');
+        },
+        onError: (error) => {
+            console.log("error", error)
         }
     })
 
@@ -41,7 +49,6 @@ const LoginPage = () => {
         mutation.mutate({ email, password })
         console.log("submit")
     }
-
 
     return (
 

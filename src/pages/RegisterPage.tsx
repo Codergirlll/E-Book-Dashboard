@@ -26,7 +26,6 @@ const RegisterPage = () => {
         onSuccess: () => {
             navigate("/auth/login")
         }
-
     })
 
     const UserRegister = () => {
