@@ -4,10 +4,9 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 const AuthLayout = () => {
 
-    const token = useTokenStore((state) => state)
-
+    const token = useTokenStore((state) => state.token)
     if (token) {
-        return <Navigate to={'/dashboard/home'} />
+        return <Navigate to={'/dashboard/home'} replace />
     }
     return (
         <div>

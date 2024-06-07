@@ -34,3 +34,14 @@ export const register = (
 ) => {
     return api.post("/api/user/register", data)
 }
+
+export const getBooks = async () => {
+    return api.get("api/book/all")
+}
+
+
+export const createBook = async (
+
+) => {
+    return api.post("api/book/create")
+}

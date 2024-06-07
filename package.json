@@ -17,6 +17,7 @@
     "@tanstack/react-query": "^5.37.1",
     "@types/axios": "^0.14.0",
     "@types/store": "^2.0.5",
+    "@types/table": "^6.3.2",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -24,12 +25,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
+    "table": "^6.8.2",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "types": "file:../../../../../store",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/next": "^9.0.0",
     "@types/node": "^20.12.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

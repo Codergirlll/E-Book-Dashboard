@@ -35,7 +35,7 @@ const DashboardLayout = () => {
     const { token, setToken } = useTokenStore((state) => state)
 
     if (token === '') {
-        return <Navigate to={'/auth/login'} />
+        return <Navigate to={'/auth/login'} replace />
     }
 
     const LogOut = () => {
