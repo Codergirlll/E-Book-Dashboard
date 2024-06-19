@@ -22,27 +22,34 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from 'react-hook-form';
-
-// import { LoaderCircle } from 'lucide-react';
-import { Link, } from 'react-router-dom';
+import { Link, useNavigate, } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createBook } from '@/http/api';
+import { LoaderCircle } from 'lucide-react';
 
 
 const formSchema = z.object({
+
     title: z.string().min(2, {
         message: 'Title must be at least 2 characters.',
     }),
+
     genre: z.string().min(2, {
         message: 'Genre must be at least 2 characters.',
     }),
+
     description: z.string().min(2, {
         message: 'Description must be at least 2 characters.',
     }),
+
     coverImage: z.instanceof(FileList).refine((file) => {
         return file.length == 1;
     }, 'Cover Image is required'),
+
     file: z.instanceof(FileList).refine((file) => {
         return file.length == 1;
-    }, 'Book PDF is required'),
+    }, 'Book PDF is required')
+
 });
 
 
@@ -61,9 +68,32 @@ const BookCreate = () => {
     const coverImageRef = form.register('coverImage');
     const fileRef = form.register('file');
 
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
+    const mutation = useMutation({
+        mutationFn: createBook,
+        onSuccess: (response) => {
+            console.log("book created Successfully: ", response)
+            queryClient.invalidateQueries({ queryKey: ['Books'] })
+            // setToken(response.data.token);
+            navigate('/dashboard/books');
+        },
+        onError: (error) => {
+            console.log("error", error)
+        }
+    })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+
+        const formData = new FormData()
+        formData.append('title', values.title)
+        formData.append('genre', values.genre)
+        formData.append('description', values.description)
+        formData.append('coverImage', values.coverImage[0])
+        formData.append('file', values.file[0])
         console.log("values: ", values)
+        mutation.mutate(formData)
     }
     return (
         <section>
@@ -91,13 +121,11 @@ const BookCreate = () => {
                                     <span className="ml-2">Cancel</span>
                                 </Button>
                             </Link>
-                            <Button >
-                                <span className="ml-2">Submit</span>
-                            </Button>
-                            {/* <Button type="submit" disabled={mutation.isPending}>
+                            <Button type='submit' disabled={mutation.isPending}>
                                 {mutation.isPending && <LoaderCircle className="animate-spin" />}
                                 <span className="ml-2">Submit</span>
-                            </Button> */}
+                            </Button>
+
                         </div>
                     </div>
                     <Card className="mt-6">
